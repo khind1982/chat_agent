@@ -26,4 +26,11 @@ def retrieve_holiday_data(criteria):
     result = mycursor.fetchall()
     for x in result:
         results.append(x)
+    if not results:
+        return [
+            """Unfortunately we couldn't find any recommendations based 
+                on the options you selected.  If you want to
+                speak to a travel agent, please call 0123456789
+            """
+        ]
     return results

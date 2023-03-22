@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>Hello!  This is Chat Agent.</p>
+        <p>First of all, what type of holiday are you looking for?</p>
+        <p>Please choose from 'lazy' or 'active':</p>
+        <br/>
+        <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+        </form>
+        <br/>
+        <h1>Your holiday recommendations</h1>
+        <table>
+        {% for result in results %}
+            <tr>
+                <td><h2>{{result.city}}</h2></td>
+                <td><h2>{{result.price}}</h2></td>
+                <td><p>{{result.country}}</p></td>
+                <td><p>{{result.hotel}}</p></td>
+            </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>
