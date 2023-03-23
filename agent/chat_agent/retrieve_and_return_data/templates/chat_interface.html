@@ -3,7 +3,6 @@
     <body>
         <p>Hello!  This is Chat Agent.</p>
         <p>First of all, what type of holiday are you looking for?</p>
-        <br/>
         <form method="post" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             <label><p>Please choose from 'lazy' or 'active' in the form below:</p></label>
@@ -23,9 +22,9 @@
             {% for result in results %}
                 <tr>
                     <td><h2>{{result.city}}</h2></td>
-                    <td><h2>{{result.price}}</h2></td>
-                    <td><p>{{result.country}}</p></td>
-                    <td><p>{{result.hotel}}</p></td>
+                    <td><p>({{result.country}})</p></td>
+                    <td><h2>£ {{result.price}} per night</h2></td>
+                    <td><p><strong>Hotel name:</strong> {{result.hotel}}</p></td>
                 </tr>
             {% endfor %}
             </table>

@@ -43,6 +43,17 @@ class RetrieveData(MultiModelFormView):
         mountain = request.POST.getlist('mountain')
         sea = request.POST.getlist('sea')
         request = render_database_request(lazy, active, cold, mild, hot, city, mountain, sea)
+        
+        # This is a temporary fix so that a functioning application can be demonstrated.
+        # Change the code to enable users to enter multiple values in the form.
+        # Change the code to enable users to leave forms blank.  
+        if len(request) > 3:
+            context['default'] = "Unfortunately we can't process your request.  Please only select one answer for each question."
+            return self.render_to_response(context)
+        if len(request) < 3:
+            context['default'] = "Unfortunately we can't process your request.  Please ensure you select one answer for each question."
+            return self.render_to_response(context)
+        
         results = retrieve_holiday_data(request)
         reformatted_results = reformat_database_results(results)
         if reformat_database_results(results):
