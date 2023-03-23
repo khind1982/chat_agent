@@ -3,24 +3,30 @@
     <body>
         <p>Hello!  This is Chat Agent.</p>
         <p>First of all, what type of holiday are you looking for?</p>
-        <p>Please choose from 'lazy' or 'active':</p>
         <br/>
-        <form action="" method="post" novalidate>
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
+        <form method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <label><p>Please choose from 'lazy' or 'active' in the form below:</p></label>
+            {{forms.lazy_form.as_p}}
+            <label><p>Thinking about the climate, Please choose from 'cold', 'mild' or 'hot' in the form below:</p></label>
+            {{forms.climate_form.as_p}}
+            <input type="submit" value="submit answers">
         </form>
         <br/>
-        <h1>Your holiday recommendations</h1>
-        <table>
-        {% for result in results %}
-            <tr>
-                <td><h2>{{result.city}}</h2></td>
-                <td><h2>{{result.price}}</h2></td>
-                <td><p>{{result.country}}</p></td>
-                <td><p>{{result.hotel}}</p></td>
-            </tr>
-        {% endfor %}
-        </table>
+        {% if default %}
+            <h4>{{default}}</h4>
+        {% else %}
+            <h1>Your holiday recommendations</h1>
+            <table>
+            {% for result in results %}
+                <tr>
+                    <td><h2>{{result.city}}</h2></td>
+                    <td><h2>{{result.price}}</h2></td>
+                    <td><p>{{result.country}}</p></td>
+                    <td><p>{{result.hotel}}</p></td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% endif %}
     </body>
 </html>
