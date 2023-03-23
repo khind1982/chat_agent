@@ -22,6 +22,9 @@ def retrieve_data(request):
         if lazy:
             results = retrieve_holiday_data([('lazy'), ('mild'), ('city')])
             context['results'] = reformat_database_results(results)
+        if active:
+            results = retrieve_holiday_data([('active'), ('mild'), ('city')])
+            context['results'] = reformat_database_results(results)
     return render(
         request, "chat_interface.html", context
     )

@@ -9,3 +9,12 @@ class LazyActiveForm(forms.ModelForm):
     class Meta:
         model = models.Settings
         fields = ['lazy', 'active']
+
+class TemperatureRatingForm(forms.ModelForm):
+    cold = forms.BooleanField()
+    mild = forms.BooleanField()
+    hot = forms.BooleanField()
+
+    class Meta:
+        model = models.Settings
+        fields = ['cold', 'mild', 'hot']
