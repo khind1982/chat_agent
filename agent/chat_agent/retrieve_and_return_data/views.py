@@ -8,6 +8,7 @@ from django.template import RequestContext
 
 from retrieve_and_return_data.forms import LazyActiveForm
 from retrieve_and_return_data.forms import TemperatureRatingForm
+from retrieve_and_return_data.forms import LocationForm
 
 from multi_form_view import MultiModelFormView
 
@@ -18,7 +19,8 @@ from chat_agent_utils import retrieve_holiday_data
 class RetrieveData(MultiModelFormView):
     form_classes = {
         'lazy_form' : LazyActiveForm,
-        'climate_form' : TemperatureRatingForm
+        'climate_form' : TemperatureRatingForm,
+        'location_form' : LocationForm
     }
     template_name = 'chat_interface.html'
     def get_success_url(self):
@@ -26,6 +28,7 @@ class RetrieveData(MultiModelFormView):
     def forms_valid(self, forms):
         activity = forms['lazy_form'].save(commit=False)
         climate = forms['climate_form'].save(commit=False)
+        location = forms['location_form'].save(commit=False)
         return super(RetrieveData, self).forms_valid(forms)
     def get(self, request, *args, **kwargs):
         return self.render_to_response(self.get_context_data())
@@ -36,19 +39,20 @@ class RetrieveData(MultiModelFormView):
         cold = request.POST.getlist('cold')
         mild = request.POST.getlist('mild')
         hot = request.POST.getlist('hot')
-        request = render_database_request(lazy, active, cold, mild, hot)
+        city = request.POST.getlist('city')
+        mountain = request.POST.getlist('mountain')
+        sea = request.POST.getlist('sea')
+        request = render_database_request(lazy, active, cold, mild, hot, city, mountain, sea)
         results = retrieve_holiday_data(request)
         reformatted_results = reformat_database_results(results)
         if reformat_database_results(results):
-            print('results')
             context['results'] = reformat_database_results(results)
         else:
-            print('default')
             context['default'] = results[0]
         return self.render_to_response(context)
 
 
-def render_database_request(lazy, active, cold, mild, hot):
+def render_database_request(lazy, active, cold, mild, hot, city, mountain, sea):
     request = []
     activity_options = {'lazy':lazy, 'active':active}
     for activity_option,value in activity_options.items():
@@ -59,7 +63,12 @@ def render_database_request(lazy, active, cold, mild, hot):
     for climate_option,value in climate_options.items():
         if value:
             request.append((climate_option))
-    request.append(('city'))
+
+    location_options = {'city':city, 'mountain':mountain, 'sea':sea}
+    for location_option,value in location_options.items():
+        if value:
+            request.append((location_option))
+
     return request
 
 

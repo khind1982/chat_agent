@@ -18,3 +18,12 @@ class TemperatureRatingForm(forms.ModelForm):
     class Meta:
         model = models.Settings
         fields = ['cold', 'mild', 'hot']
+
+class LocationForm(forms.ModelForm):
+    city = forms.BooleanField()
+    mountain = forms.BooleanField()
+    sea = forms.BooleanField()
+
+    class Meta:
+        model = models.Settings
+        fields = ['city', 'mountain', 'sea']

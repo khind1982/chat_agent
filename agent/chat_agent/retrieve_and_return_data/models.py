@@ -7,3 +7,6 @@ class Settings(models.Model):
     cold = models.BooleanField()
     mild = models.BooleanField()
     hot = models.BooleanField()
+    city = models.BooleanField()
+    mountain = models.BooleanField()
+    sea = models.BooleanField()
