@@ -17,6 +17,12 @@ def render_input_criteria(criteria):
 
 
 def retrieve_holiday_data(criteria):
+    """
+    Given a list of queries for the database
+    When executed, query the database and return
+    results as a list or return a default statement 
+    if no results.  
+    """
     results = []
     mycursor = db.cursor()
     category, temp_rating, location = render_input_criteria(criteria)
